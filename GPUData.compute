@@ -1,0 +1,22 @@
+#pragma kernel CSMain
+
+float _Time;
+struct Matrix4x4
+{
+    float4x4 m;
+};
+
+RWStructuredBuffer<Matrix4x4> matrixBuffer;
+
+[numthreads(8, 8, 1)]
+void CSMain(uint3 id : SV_DispatchThreadID)
+{
+    int index = id.x + id.y * 8;
+    float x = index % 100;
+    float z = index / 100;
+
+    float y/*height*/ = 12.0f; // Do stuff for displacement on heihgt.
+
+    matrixBuffer[index].m = float4x4(1.0, 0.0, 0.0, x * 1.0, 0.0, 1.0, 0.0, y, 0.0, 0.0, 1.0, z * 1.0, 0.0, 0.0, 0.0, 1.0);
+
+}
